@@ -4,19 +4,19 @@ from boto3.dynamodb.conditions import Attr, Key
 from app.utils.aws.dynamodb import table
 
 
-class AccountRepositories():
+class InfoRepositories():
 
-    def create_account(
+    def create_info(
         self,
-        account_in: dict
+        info_in: dict
     ):
         try:
-            response = helpers.put_item_not_exists_PK_And_SK(account_in)
+            response = helpers.put_item(info_in)
             return response
         except Exception:
-            report_status.create_exception("Account")
+            report_status.create_exception("Info")
 
-    def delete_account(
+    def delete_info(
         self,
         pk: str,
         sk: str

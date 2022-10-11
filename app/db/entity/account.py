@@ -1,11 +1,13 @@
 from app.models.schemas import account as _account_schemas
 from app.db.entity.base import BaseEntity
 from app.utils import auth as _auth
+from ksuid import Ksuid
+from app.utils.aws import s3 as _s3
 
 
 class AccountEtity(
     BaseEntity,
-    _account_schemas.AccountRegister
+    _account_schemas.AccountDB
 ):
 
     def __init__(self, *args, **kwargs):

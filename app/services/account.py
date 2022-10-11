@@ -1,17 +1,21 @@
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, UploadFile
 from app.utils import report_status
 from app.utils import auth as _auth
 from app.models.schemas import account as _account_schemas
-from app.db.account import TypeRepositories
+from app.models.schemas import info as _info_schemas
+
+from app.db.account import AccountRepositories
+from app.db.info import InfoRepositories
+
 from app.db.entity import account as _account
 from app.db.entity import user as _user
+from app.db.entity import info as _info
 
-account_db = {
-    "Password": "$2b$12$mvzf.2e1BXHxT8k6flbX1.Okthj7pBcAZywKCpPGogsGOPiBQc1Vy",
-    "Gmail": "string"
-}
+from app.utils.aws import s3 as _s3
 
-_repo = TypeRepositories()
+
+_repo = AccountRepositories()
+_repo_info = InfoRepositories()
 
 
 class AccountService():
@@ -40,12 +44,15 @@ class AccountService():
         return response
 
     def register(
-        user_in: _account_schemas.AccountRegister
+        user_in: _account_schemas.AccountRegister,
+        path: UploadFile
     ) -> None:
 
         account = _account.AccountEtity(**user_in.dict(by_alias=True))
+        info = _info.InfoEtity(**user_in.dict(by_alias=True))
+        _ = _repo_info.create_info(info.dict(by_alias=True))
         _ = _repo.create_account(account.dict(by_alias=True))
-
+        _ = _s3.upload_file(path, info.path)
         access_token = _auth.create_access_token(
             data={"gmail": account.gmail}
         )
@@ -55,6 +62,8 @@ class AccountService():
     def delete_account(
         token_data: _account_schemas.AccountDelete
     ):
-        user = _user.UserEtity(**token_data)
+        user = _user.UserEtity(**token_data.dict(by_alias=True))
+        info = _info.InfoEtity(**token_data.dict(by_alias=True))
         _ = _repo.delete_account(user.pk, user.sk)
+        _ = _repo_info.delete_info(info.pk, info.sk)
         return {'message': 'delete successfully'}

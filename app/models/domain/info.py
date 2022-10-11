@@ -2,16 +2,16 @@ from pydantic import BaseModel, Field
 
 
 class InfoFullName(BaseModel):
-    fullname: str = Field(alias='FullName')
+    fullname: str = Field(None, alias='FullName')
 
 
 class InfoNumber(BaseModel):
-    number: str = Field(alias='Number')
+    number: str = Field(None, alias='Number')
 
 
 class InfoCMND(BaseModel):
-    cmnd: int = Field(alias='CMND')
+    cmnd: int = Field(None, alias='CMND')
 
 
 class InfoPath(BaseModel):
-    path: str = Field(alias='Path')
+    path: str = Field(None, alias='Path')

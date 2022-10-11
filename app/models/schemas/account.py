@@ -36,3 +36,10 @@ class AccountDelete(
     _domain_account.AccountGmail
 ):
     pass
+
+
+class AccountDB(
+    _domain_account.AccountGmail,
+    _domain_account.AccountPassword
+):
+    pass

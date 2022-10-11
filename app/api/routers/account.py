@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, UploadFile, File, Form
 from fastapi.security import OAuth2PasswordRequestForm
 from app.models.schemas import account as _schemas_account
 from app.services.account import AccountService
@@ -25,12 +25,30 @@ async def read_users_me(current_user: _schemas_account.AccountIn = Depends(_auth
 
 
 @router.post("/register")
-async def create_account(user_in: _schemas_account.AccountRegister):
-    response = AccountService.register(user_in)
+async def create_account(
+    path: UploadFile = File(..., alias='Path'),
+    number: str = Form(..., alias='Number'),
+    cmnd: int = Form(..., alias='CMND'),
+    fullname: str = Form(..., alias='FullName'),
+    password: str = Form(..., alias='Password'),
+    gmail: str = Form(..., alias='Gmail')
+):
+    user_in = _schemas_account.AccountRegister(**{
+        'Number': number,
+        'CMND': cmnd,
+        'FullName': fullname,
+        'Password': password,
+        'Gmail': gmail,
+        'Path': path.filename
+    })
+    response = AccountService.register(user_in, path)
     return response
 
 
 @router.delete("/delete-account")
-async def create_account(user: _schemas_account.AccountDelete,user_in: _schemas_account.TokenData = Depends(_auth.get_current_user)):
+async def create_account(
+    user: _schemas_account.AccountDelete,
+    # user_in: _schemas_account.TokenData = Depends(_auth.get_current_user)
+):
     response = AccountService.delete_account(user)
     return response
