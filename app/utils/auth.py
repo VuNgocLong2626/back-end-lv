@@ -67,11 +67,13 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         gmail: str = payload.get("gmail")
+        permission: str = payload.get("permission")
         print(gmail)
         if gmail is None:
             raise credentials_exception
         token_data = {
-            'Gmail': gmail
+            'Gmail': gmail,
+            'Permission': permission
         }
         return token_data
     except JWTError:

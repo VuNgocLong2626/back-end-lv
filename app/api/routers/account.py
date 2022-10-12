@@ -88,3 +88,12 @@ async def create_account(
     })
     response = AccountService.register(user_in, path)
     return response
+
+
+@router.post('/change-password')
+async def change_password(
+    password_in: _schemas_account.AccountPassword,
+    user_in: _schemas_account.TokenData = Depends(_auth.get_current_user)
+):
+    response = AccountService.change_password(password_in, user_in)
+    return response

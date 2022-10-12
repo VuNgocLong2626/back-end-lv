@@ -47,3 +47,10 @@ class AccountDB(
     _domain_permission.PermissionName
 ):
     pass
+
+
+class AccountPassword(
+    _domain_account.AccountPassword,
+    _domain_account.AccountOldPassword
+):
+    pass

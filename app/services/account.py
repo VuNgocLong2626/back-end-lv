@@ -72,8 +72,6 @@ class AccountService():
                 headers={"WWW-Authenticate": "Bearer"},
             )
 
-
-
         if not user and user_res:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -117,3 +115,25 @@ class AccountService():
         _ = _repo.delete_account(user.pk, user.sk)
         _ = _repo_info.delete_info(info.pk, info.sk)
         return {'message': 'delete successfully'}
+
+    def change_password(
+        password_in: _account_schemas.AccountPassword,
+        user_in: _account_schemas.TokenData
+    ):
+        user_entity = _user.UserEtity(**user_in)
+        user_res = _repo.get_account(user_entity.pk, user_entity.sk)
+        user = _auth.verify_password(
+            password_in.password_old, user_res.get('Password'))
+
+        if not user and user_res:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Not Found User",
+            )
+        _ = _repo.change_password(
+            user_entity.pk,
+            user_entity.sk,
+            _auth.get_password_hash(password_in.password)
+        )
+
+        return user_entity

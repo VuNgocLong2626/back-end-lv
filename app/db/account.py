@@ -37,3 +37,26 @@ class AccountRepositories():
             return respon
         except Exception:
             _ = report_status.get_exception("Account")
+
+    def change_password(
+        self,
+        pk: str,
+        sk: str,
+        password: str
+    ) -> None:
+        # try:
+        _ = table.update_item(
+            Key={
+                'PK': pk,
+                'SK': sk
+            },
+            UpdateExpression='SET #pw = :val1',
+            ExpressionAttributeValues={
+                ':val1': password,
+            },
+            ExpressionAttributeNames={
+                '#pw': 'Password'
+            }
+        )
+        # except Exception:
+        #     _ = report_status.get_exception("Account")

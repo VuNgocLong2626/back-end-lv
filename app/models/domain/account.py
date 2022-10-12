@@ -7,3 +7,7 @@ class AccountGmail(BaseModel):
 
 class AccountPassword(BaseModel):
     password: str = Field(None, alias='Password')
+
+
+class AccountOldPassword(BaseModel):
+    password_old: str = Field(None, alias='PasswordOld')
