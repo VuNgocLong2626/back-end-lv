@@ -10,18 +10,18 @@ class PermissionEtity(
     def __init__(self, *args, **kwargs):
 
         super().__init__(**kwargs)
-        self.pk = f'PERMISSION#{self.name}'
-        self.sk = f'PERMISSION#{self.name}'
+        self.pk = f'PERMISSION#{self.permission}'
+        self.sk = f'PERMISSION#{self.permission}'
 
-    def get_pk(name: str):
-        pk = f'PERMISSION#{name}'
+    def get_pk(permission: str):
+        pk = f'PERMISSION#{permission}'
         return pk
 
-    def get_sk(name: str):
-        sk = f'PERMISSION#{name}'
+    def get_sk(permission: str):
+        sk = f'PERMISSION#{permission}'
         return sk
 
-    def get_pk_and_sk(name: str):
-        pk = PermissionEtity.get_pk(name)
-        sk = PermissionEtity.get_sk(name)
+    def get_pk_and_sk(permission: str):
+        pk = PermissionEtity.get_pk(permission)
+        sk = PermissionEtity.get_sk(permission)
         return pk, sk

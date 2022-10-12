@@ -13,7 +13,7 @@ async def create_permission(permission_in: _schemas_permission.PermissionIn):
     return response
 
 
-@router.get("get-all-permission", response_model=List[_schemas_permission.PermissionDB])
+@router.get("/get-all-permission", response_model=List[_schemas_permission.PermissionDB])
 async def get_all():
     response = PermissionService.get_all_permission()
     return response

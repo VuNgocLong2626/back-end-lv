@@ -19,6 +19,18 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     return response
 
 
+@router.post("/login-not-form")
+async def login_for_access_token(data: _schemas_account.AccountIn):
+    response = AccountService.login(data)
+    return response
+
+
+@router.post("/login-admin-not-form")
+async def login_for_access_token(data: _schemas_account.AccountIn):
+    response = AccountService.login_API(data)
+    return response
+
+
 @router.get("/users/me/")
 async def read_users_me(current_user: _schemas_account.AccountIn = Depends(_auth.get_current_user)):
     return current_user
@@ -39,7 +51,8 @@ async def create_account(
         'FullName': fullname,
         'Password': password,
         'Gmail': gmail,
-        'Path': path.filename
+        'Path': path.filename,
+        'Permission': 'Businesses'
     })
     response = AccountService.register(user_in, path)
     return response
@@ -51,4 +64,27 @@ async def create_account(
     # user_in: _schemas_account.TokenData = Depends(_auth.get_current_user)
 ):
     response = AccountService.delete_account(user)
+    return response
+
+
+@router.post("/register-admin")
+async def create_account(
+    path: UploadFile = File(..., alias='Path'),
+    number: str = Form(..., alias='Number'),
+    cmnd: int = Form(..., alias='CMND'),
+    fullname: str = Form(..., alias='FullName'),
+    password: str = Form(..., alias='Password'),
+    gmail: str = Form(..., alias='Gmail'),
+    permission: str = Form(..., alias='Permission')
+):
+    user_in = _schemas_account.AccountRegister(**{
+        'Number': number,
+        'CMND': cmnd,
+        'FullName': fullname,
+        'Password': password,
+        'Gmail': gmail,
+        'Path': path.filename,
+        'Permission': permission
+    })
+    response = AccountService.register(user_in, path)
     return response
