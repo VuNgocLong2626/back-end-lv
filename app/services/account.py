@@ -12,6 +12,7 @@ from app.db.entity import user as _user
 from app.db.entity import info as _info
 
 from app.utils.aws import s3 as _s3
+from ksuid import Ksuid
 
 
 _repo = AccountRepositories()
@@ -137,3 +138,35 @@ class AccountService():
         )
 
         return user_entity
+
+    def get_info(
+        user_in: _account_schemas.TokenData
+    ):
+        user_entity = _info.InfoEtity(**user_in)
+        info_res = _repo_info.get_info(user_entity.pk, user_entity.sk)
+        url_image = _s3.create_presigned_url(info_res.get('Path'))
+        response = _info_schemas.InfoData(**info_res)
+        setattr(response, 'path', url_image)
+        return response
+
+    def update_image(
+        path: UploadFile,
+        user_in: _account_schemas.TokenData
+    ):
+        user_entity = _info.InfoEtity(**user_in)
+        info_res = _repo_info.get_info(user_entity.pk, user_entity.sk)
+        file_name = _s3.get_file_name(path.filename, str(Ksuid()))
+        _ = _repo_info.update_image(user_entity.pk, user_entity.sk, file_name)
+        _ = _s3.delete_file(info_res.get('Path'))
+        _ = _s3.upload_file(path, file_name)
+        response = _s3.create_presigned_url(file_name)
+
+        return response
+
+    def update_info(
+        info_in: _info_schemas.InfoUpdate,
+        user_in: _account_schemas.TokenData
+    ):
+        user_entity = _info.InfoEtity(**user_in)
+        _ = _repo_info.update_info(user_entity.pk, user_entity.sk, info_in)
+        return {'message': 'delete successfully'}

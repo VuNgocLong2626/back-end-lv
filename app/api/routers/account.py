@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, UploadFile, File, Form
 from fastapi.security import OAuth2PasswordRequestForm
 from app.models.schemas import account as _schemas_account
+from app.models.schemas import info as _schemas_info
 from app.services.account import AccountService
 from app.utils import auth as _auth
 
@@ -96,4 +97,30 @@ async def change_password(
     user_in: _schemas_account.TokenData = Depends(_auth.get_current_user)
 ):
     response = AccountService.change_password(password_in, user_in)
+    return response
+
+
+@router.get('/get-info')
+async def get_info_account(
+    user_in: _schemas_account.TokenData = Depends(_auth.get_current_user)
+):
+    response = AccountService.get_info(user_in)
+    return response
+
+
+@router.put('/update-avatar')
+async def update_avatar(
+    path: UploadFile,
+    user_in: _schemas_account.TokenData = Depends(_auth.get_current_user)
+):
+    response = AccountService.update_image(path, user_in)
+    return response
+
+
+@router.put('/update-info')
+async def update_info(
+    info_in: _schemas_info.InfoData,
+    user_in: _schemas_account.TokenData = Depends(_auth.get_current_user)
+):
+    response = AccountService.update_info(info_in, user_in)
     return response

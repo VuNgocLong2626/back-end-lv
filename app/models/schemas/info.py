@@ -10,3 +10,11 @@ class InfoData(
     _domain_info.InfoPath
 ):
     pass
+
+
+class InfoUpdate(
+    _domain_info.InfoFullName,
+    _domain_info.InfoCMND,
+    _domain_info.InfoNumber
+):
+    pass
