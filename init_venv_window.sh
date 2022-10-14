@@ -3,7 +3,7 @@ pip install virtualenv
 #create venv
 virtualenv venv 
 #
-.\venv\Scripts\activate
+
 #Exit venv
 # deactivate
 

@@ -15,14 +15,14 @@ class Settings(BaseSettings):
 class DevSettings(Settings):
     region_name = 'ap-southeast-1'
     dynamo_link = 'devdynamo'
-    buckets = 'trovol-question'
+    buckets = 'trovol'
     table = 'TroVol'
 
 
 class StagingSettings(Settings):
     region_name = 'ap-southeast-1'
     dynamo_link = 'stagingdynamo'
-    buckets = 'trovol-question'
+    buckets = 'trovol'
     table = 'TroVol-Stagting'
 
 
