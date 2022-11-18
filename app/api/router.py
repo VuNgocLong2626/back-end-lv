@@ -4,7 +4,8 @@ from fastapi import APIRouter
 from app.api.routers import (
     test as api_basic,
     account as api_account,
-    permission as api_permission
+    permission as api_permission,
+    feedback as api_feedback,
 )
 
 
@@ -31,5 +32,12 @@ router.include_router(
     api_permission.router,
     prefix="/permission",
     tags=["Permission"],
+    responses={404: {"description": "Not found"}}
+)
+
+router.include_router(
+    api_feedback.router,
+    prefix="/feedback",
+    tags=["Feedback"],
     responses={404: {"description": "Not found"}}
 )
