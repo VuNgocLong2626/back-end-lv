@@ -119,7 +119,7 @@ async def update_avatar(
 
 @router.put('/update-info')
 async def update_info(
-    info_in: _schemas_info.InfoData,
+    info_in: _schemas_info.InfoUpdate,
     user_in: _schemas_account.TokenData = Depends(_auth.get_current_user)
 ):
     response = AccountService.update_info(info_in, user_in)

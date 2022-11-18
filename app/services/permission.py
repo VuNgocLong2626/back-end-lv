@@ -17,7 +17,14 @@ class PermissionService():
         return {'message': 'create successfully'}
 
     def get_all_permission():
-        response = _repo.get_all_perrmission()
+        datas = _repo.get_all_perrmission()
+        response = []
+        for data in datas:
+            response.append({
+                'value': data.get('Permission'),
+                'text': data.get('Permission')
+            })
+
         return response
 
     def delete_permission(permission_in: _permission_schemas.PermissionIn):

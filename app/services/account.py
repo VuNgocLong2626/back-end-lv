@@ -13,6 +13,7 @@ from app.db.entity import info as _info
 
 from app.utils.aws import s3 as _s3
 from ksuid import Ksuid
+from datetime import timedelta, datetime
 
 
 _repo = AccountRepositories()
@@ -31,6 +32,7 @@ class AccountService():
         user_res = _repo.get_account(user_entity.pk, user_entity.sk)
         user = _auth.verify_password(
             account_in.password, user_res.get('Password'))
+        time_rep = timedelta(hours=3)
 
         if user_res.get('Permission') == 'Admin':
             raise HTTPException(
@@ -49,9 +51,15 @@ class AccountService():
             data={
                 "gmail": account_in.gmail,
                 "permission": user_res.get('Permission')
-            }
+            },
+            expires_delta=time_rep
         )
-        response = {"AccessToken": access_token, "TokenType": "bearer"}
+        response = {
+            "AccessToken": access_token,
+            "TokenType": "bearer",
+            "Expire": time_rep + datetime.utcnow(),
+            "gmail": account_in.gmail
+        }
 
         return response
 
@@ -65,6 +73,7 @@ class AccountService():
         user_res = _repo.get_account(user_entity.pk, user_entity.sk)
         user = _auth.verify_password(
             account_in.password, user_res.get('Password'))
+        time_rep = timedelta(hours=3)
 
         if user_res.get('Permission') == 'Businesses':
             raise HTTPException(
@@ -83,9 +92,15 @@ class AccountService():
             data={
                 "gmail": account_in.gmail,
                 "permission": user_res.get('Permission')
-            }
+            },
+            expires_delta=time_rep
         )
-        response = {"AccessToken": access_token, "TokenType": "bearer"}
+        response = {
+            "AccessToken": access_token,
+            "TokenType": "bearer",
+            "Expire": time_rep + datetime.utcnow(),
+            "gmail": account_in.gmail
+        }
 
         return response
 
@@ -96,16 +111,24 @@ class AccountService():
 
         account = _account.AccountEtity(**user_in.dict(by_alias=True))
         info = _info.InfoEtity(**user_in.dict(by_alias=True))
-        _ = _repo_info.create_info(info.dict(by_alias=True))
-        _ = _repo.create_account(account.dict(by_alias=True))
-        _ = _s3.upload_file(path, info.path)
+        time_rep = timedelta(hours=2)
+        # _ = _repo_info.create_info(info.dict(by_alias=True))
+        # _ = _repo.create_account(account.dict(by_alias=True))
+        # _ = _s3.upload_file(path, info.path)
         access_token = _auth.create_access_token(
             data={
                 "gmail": account.gmail,
-                "permission": account.permission
-            }
+                "permission": account.permission,
+            },
+            expires_delta=time_rep
         )
-        response = {"AccessToken": access_token, "TokenType": "bearer"}
+        response = {
+            "AccessToken": access_token,
+            "TokenType": "bearer",
+            "Expire": time_rep + datetime.utcnow(),
+            "gmail": user_in.gmail
+
+        }
         return response
 
     def delete_account(
@@ -115,6 +138,7 @@ class AccountService():
         info = _info.InfoEtity(**token_data.dict(by_alias=True))
         _ = _repo.delete_account(user.pk, user.sk)
         _ = _repo_info.delete_info(info.pk, info.sk)
+        _ = _s3.delete_file(info.path)
         return {'message': 'delete successfully'}
 
     def change_password(
@@ -143,10 +167,13 @@ class AccountService():
         user_in: _account_schemas.TokenData
     ):
         user_entity = _info.InfoEtity(**user_in)
+        user_account = _user.UserEtity(**user_in)
+        user_res = _repo.get_account(user_account.pk, user_account.sk)
         info_res = _repo_info.get_info(user_entity.pk, user_entity.sk)
         url_image = _s3.create_presigned_url(info_res.get('Path'))
         response = _info_schemas.InfoData(**info_res)
         setattr(response, 'path', url_image)
+        setattr(response, 'permission', user_res.get('Permission'))
         return response
 
     def update_image(
