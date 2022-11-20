@@ -6,6 +6,7 @@ from app.api.routers import (
     account as api_account,
     permission as api_permission,
     feedback as api_feedback,
+    type as api_type,
 )
 
 
@@ -39,5 +40,13 @@ router.include_router(
     api_feedback.router,
     prefix="/feedback",
     tags=["Feedback"],
+    responses={404: {"description": "Not found"}}
+)
+
+
+router.include_router(
+    api_type.router,
+    prefix="/type",
+    tags=["type"],
     responses={404: {"description": "Not found"}}
 )
