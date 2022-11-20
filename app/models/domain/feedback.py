@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from datetime import date
 
 
 class FeedbackFullname(BaseModel):
@@ -19,3 +20,7 @@ class FeedbackNumber(BaseModel):
 
 class FeedbackDisplay(BaseModel):
     display: bool = Field(False, alias='Display')
+
+
+class FeedbackDate(BaseModel):
+    date_feedback: str = Field(date.today().__str__(), alias='DateFeedback')

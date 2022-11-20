@@ -21,6 +21,7 @@ class FeedBackOut(
     _feedback_domain.FeedbackFullname,
     _feedback_domain.FeedbackGmail,
     _feedback_domain.FeedbackMessage,
+    _feedback_domain.FeedbackDate,
     _feedback_domain.FeedbackDisplay
 ):
     pass

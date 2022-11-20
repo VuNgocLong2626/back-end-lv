@@ -34,6 +34,10 @@ class FeedbackService():
         _ = _repo.update_display(entity.pk, entity.sk, entity.display)
         return {'message': 'update successfully'}
 
-    def get_all_display_true():
-        response = _repo.get_all_display_true()
+    def get_all_display_true(display: bool):
+        response = _repo.get_all_display_true(display)
+        return response
+
+    def get_by_date(day: int):
+        response = _repo.get_by_date(day)
         return response
