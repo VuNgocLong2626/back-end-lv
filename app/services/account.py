@@ -112,9 +112,9 @@ class AccountService():
         account = _account.AccountEtity(**user_in.dict(by_alias=True))
         info = _info.InfoEtity(**user_in.dict(by_alias=True))
         time_rep = timedelta(hours=2)
-        # _ = _repo_info.create_info(info.dict(by_alias=True))
-        # _ = _repo.create_account(account.dict(by_alias=True))
-        # _ = _s3.upload_file(path, info.path)
+        _ = _repo_info.create_info(info.dict(by_alias=True))
+        _ = _repo.create_account(account.dict(by_alias=True))
+        _ = _s3.upload_file(path, info.path)
         access_token = _auth.create_access_token(
             data={
                 "gmail": account.gmail,
@@ -197,3 +197,15 @@ class AccountService():
         user_entity = _info.InfoEtity(**user_in)
         _ = _repo_info.update_info(user_entity.pk, user_entity.sk, info_in)
         return {'message': 'delete successfully'}
+
+    def get_all_info_account(permission: str):
+        all_items = _repo.get_all_account()
+        response = []
+        if permission:
+            for item in all_items:
+                if item.get('Permission') == permission:
+                    response.append(item)
+            return response
+        # for item in all_items:
+        #     if
+        return all_items

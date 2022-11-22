@@ -4,6 +4,7 @@ from app.models.schemas import account as _schemas_account
 from app.models.schemas import info as _schemas_info
 from app.services.account import AccountService
 from app.utils import auth as _auth
+from typing import List
 
 
 router = APIRouter()
@@ -123,4 +124,13 @@ async def update_info(
     user_in: _schemas_account.TokenData = Depends(_auth.get_current_user)
 ):
     response = AccountService.update_info(info_in, user_in)
+    return response
+
+
+@router.get('/get-all-info-account', response_model=List[_schemas_info.InfoData])
+async def get_info_account(
+    permisson: str = None,
+    # user_in: _schemas_account.TokenData = Depends(_auth.get_current_user)
+):
+    response = AccountService.get_all_info_account(permisson)
     return response

@@ -60,3 +60,13 @@ class AccountRepositories():
         )
         # except Exception:
         #     _ = report_status.get_exception("Account")
+
+    def get_all_account(self) -> list:
+        try:
+            all_feedback = table.scan(
+                FilterExpression=Attr('PK').begins_with(
+                    'INFO#')
+            )
+            return all_feedback['Items']
+        except Exception:
+            _ = report_status.get_exception("Feedback")

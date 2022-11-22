@@ -23,3 +23,19 @@ class IdLocation(BaseModel):
 
 class IdSpace(BaseModel):
     id_space: str = Field(None, alias='IdSpace')
+
+
+class GlobalSecondaryIndexesPartitionKey2(BaseModel):
+    gsi2pk: str = Field(None, alias="GSI2PK")
+
+
+class GlobalSecondaryIndexesSortKey2(BaseModel):
+    gsi2sk: str = Field(None, alias="GSI2SK")
+
+
+class GlobalSecondaryIndexesPartitionKey3(BaseModel):
+    gsi3pk: str = Field(None, alias="GSI3PK")
+
+
+class GlobalSecondaryIndexesSortKey3(BaseModel):
+    gsi3sk: str = Field(None, alias="GSI3SK")

@@ -7,6 +7,7 @@ from app.api.routers import (
     permission as api_permission,
     feedback as api_feedback,
     type as api_type,
+    space_admin as api_space_admin,
 )
 
 
@@ -48,5 +49,13 @@ router.include_router(
     api_type.router,
     prefix="/type",
     tags=["type"],
+    responses={404: {"description": "Not found"}}
+)
+
+
+router.include_router(
+    api_space_admin.router,
+    prefix="/space-admin",
+    tags=["SpaceAdmin"],
     responses={404: {"description": "Not found"}}
 )
