@@ -8,6 +8,8 @@ from app.api.routers import (
     feedback as api_feedback,
     type as api_type,
     space_admin as api_space_admin,
+    location as api_location,
+    comment as api_comment,
 )
 
 
@@ -57,5 +59,21 @@ router.include_router(
     api_space_admin.router,
     prefix="/space-admin",
     tags=["SpaceAdmin"],
+    responses={404: {"description": "Not found"}}
+)
+
+
+router.include_router(
+    api_location.router,
+    prefix="/location",
+    tags=["Location"],
+    responses={404: {"description": "Not found"}}
+)
+
+
+router.include_router(
+    api_comment.router,
+    prefix="/comment",
+    tags=["Comment"],
     responses={404: {"description": "Not found"}}
 )

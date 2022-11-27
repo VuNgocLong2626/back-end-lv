@@ -29,3 +29,9 @@ async def get_all():
 async def delete_space_admin(per_in: _schemas_space_admin.SpaceAdminDelete):
     response = space_adminService.delete_space_admin(per_in)
     return response
+
+
+@router.get("/get-all-space-selection")
+async def get_all():
+    response = space_adminService.get_all_space_selection()
+    return response

@@ -25,6 +25,10 @@ class IdSpace(BaseModel):
     id_space: str = Field(None, alias='IdSpace')
 
 
+class IdComment(BaseModel):
+    id_comment: str = Field(None, alias='IdComment')
+
+
 class GlobalSecondaryIndexesPartitionKey2(BaseModel):
     gsi2pk: str = Field(None, alias="GSI2PK")
 

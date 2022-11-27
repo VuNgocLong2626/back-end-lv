@@ -5,6 +5,7 @@ from app.models.schemas import info as _schemas_info
 from app.services.account import AccountService
 from app.utils import auth as _auth
 from typing import List
+from app.models.domain import space
 
 
 router = APIRouter()
@@ -134,3 +135,29 @@ async def get_info_account(
 ):
     response = AccountService.get_all_info_account(permisson)
     return response
+
+
+@router.post("/test")
+async def create_account(
+    path: List[UploadFile] = File(..., alias='Path'),
+    # name: str = Form(..., alias='NameLocation'),
+    # model: str = Form(..., alias='Model'),
+    # price: str = Form(..., alias='Price'),
+    # address: str = Form(..., alias='Address'),
+    # info_location: str = Form(..., alias='InfoLocation'),
+    # time_star: str = Form(..., alias='TimeStar'),
+    # gamil: str = Form(..., alias='Gamil'),
+    # on_id_address: str = Form(..., alias='OnIdAddress'),
+    # point_address: str = Form(..., alias='PointAddress'),
+
+):
+    print(path)
+    return path
+
+
+@router.post("/test2")
+async def create_account(
+    point: space.SpaceName
+):
+    print(point)
+    return point

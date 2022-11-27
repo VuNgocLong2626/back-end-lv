@@ -47,3 +47,16 @@ class space_adminService():
         )
         _ = _repo.delete_space(space_admin.pk, space_admin.sk)
         return {'message': 'delete successfully'}
+
+    def get_all_space_selection():
+        space_all = _repo.get_all_space()
+        response = []
+        for item in space_all:
+            response.append({
+                'value':  ast.literal_eval(item.get('Point')),
+                'text': item.get('SpaceName'),
+                'IdSpace': item.get('IdSpace')
+            })
+
+        return response
+    
