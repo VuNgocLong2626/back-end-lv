@@ -155,5 +155,19 @@ class LocationService():
                 'IdLocation': respon_location.get('IdLocation'),
                 'PriceMin': int(price[0]),
                 'PriceMax': int(price[1]),
+                'IdSpace': respon_location.get('OnIdAddress'),
+                'PointSpace': ast.literal_eval(respon_location.get('PointSpace'))
             })
+        return response
+
+    def updata_id_address(data: _location_schemas.LocationUpdateIdAddress):
+        location = _location.LocationEtity(**data.dict(by_alias=True))
+        _ = _repo.update_idAddress(
+            location.pk, location.sk, location.on_id_address)
+        return {'message': 'update successfully'}
+
+    def get_all_comment_by_id_location(gmail: str):
+        info_ = _repo.get_info_location_by_id(gmail)
+        response = _repo.get_all_comment(
+            f'LOCATION#{info_.get("IdLocation")}')
         return response

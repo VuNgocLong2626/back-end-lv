@@ -80,3 +80,15 @@ async def update_info(data: _schemas_location.LocationUpdate):
 async def get_info_list_id(gmail: list):
     response = LocationService.get_info_list_id(gmail)
     return response
+
+
+@router.put('/update-id-address')
+async def update_info(data: _schemas_location.LocationUpdateIdAddress):
+    response = LocationService.updata_id_address(data)
+    return response
+
+
+@router.post("/get-all-comment-by-id")
+async def get_all_comment_id(gmail: _schemas_location.LocationGetInfo):
+    response = LocationService.get_all_comment_by_id_location(gmail.gmail_bussiness)
+    return response

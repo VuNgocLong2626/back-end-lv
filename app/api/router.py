@@ -10,6 +10,7 @@ from app.api.routers import (
     space_admin as api_space_admin,
     location as api_location,
     comment as api_comment,
+    neighbour as api_neighbour,
 )
 
 
@@ -75,5 +76,13 @@ router.include_router(
     api_comment.router,
     prefix="/comment",
     tags=["Comment"],
+    responses={404: {"description": "Not found"}}
+)
+
+
+router.include_router(
+    api_neighbour.router,
+    prefix="/neighbour",
+    tags=["Neighbour"],
     responses={404: {"description": "Not found"}}
 )

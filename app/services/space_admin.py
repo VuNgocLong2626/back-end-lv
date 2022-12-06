@@ -15,7 +15,7 @@ class space_adminService():
             **space_admin_in.dict(by_alias=True)
         )
         _ = _repo.create_space(space_admin.dict(by_alias=True))
-        return {'message': 'create successfully'}
+        return space_admin.id_space
 
     def get_all_space_admin():
         space_all = _repo.get_all_space()

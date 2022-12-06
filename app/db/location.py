@@ -138,3 +138,40 @@ class LocationRepositories():
         )
         # except Exception:
         #     _ = report_status.get_exception("Info")
+
+    def update_idAddress(
+        self,
+        pk: str,
+        sk: str,
+        id_address: str
+    ) -> None:
+        try:
+            _ = table.update_item(
+                Key={
+                    'PK': pk,
+                    'SK': sk
+                },
+                UpdateExpression='SET #pw = :val1',
+                ExpressionAttributeValues={
+                    ':val1': id_address,
+                },
+                ExpressionAttributeNames={
+                    '#pw': 'OnIdAddress'
+                }
+            )
+        except Exception:
+            _ = report_status.get_exception("Location")
+
+    def get_all_comment(
+        self,
+        pk: str,
+    ):
+        try:
+            location_type = table.query(
+                IndexName='GSI1',
+                KeyConditionExpression=Key("GSI1PK").eq(pk)
+            )
+            respon = location_type["Items"]
+            return respon
+        except Exception:
+            _ = report_status.get_exception("Account")

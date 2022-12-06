@@ -25,7 +25,7 @@ async def get_all(data: _schemas_comment.CommentAllLocation):
     return response
 
 
-@router.delete('/delete-comment')
+@router.post('/delete-comment')
 async def delete_comment(per_in: _schemas_comment.CommentInDelete):
     response = commentService.delete_comment(per_in)
     return response

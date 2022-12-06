@@ -68,6 +68,7 @@ class LocationListId(BaseModel):
 
 
 class LocationUpdateIdAddress(
-    _domain_location.LocationIdAddress
+    _domain_location.LocationIdAddress,
+    _domain_base.IdLocation,
 ):
     pass
