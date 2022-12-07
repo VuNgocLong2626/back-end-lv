@@ -81,9 +81,10 @@ class neighbourService():
         info_address_end = _repo.get_neighbour_star(
             f'LOCATION#{data_in.id_end}',
             f'LOCATION#{data_in.id_end}')
+        print(info_address_end.get('OnIdAddress'))
         end_point = next(
             item for item in all_neighbour if item["IdSpace"] == info_address_end.get('OnIdAddress'))
-
+       
         graph = _dfs.Graph(len(all_neighbours)+1, directed=False)
         for data in all_neighbours:
             point = int(data.get('NumberNeighbour'))

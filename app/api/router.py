@@ -11,6 +11,7 @@ from app.api.routers import (
     location as api_location,
     comment as api_comment,
     neighbour as api_neighbour,
+    contact as api_contact,
 )
 
 
@@ -84,5 +85,13 @@ router.include_router(
     api_neighbour.router,
     prefix="/neighbour",
     tags=["Neighbour"],
+    responses={404: {"description": "Not found"}}
+)
+
+
+router.include_router(
+    api_contact.router,
+    prefix="/contact",
+    tags=["Contact"],
     responses={404: {"description": "Not found"}}
 )

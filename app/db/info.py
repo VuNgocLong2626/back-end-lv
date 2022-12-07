@@ -68,23 +68,23 @@ class InfoRepositories():
         sk: str,
         info: _info_schemas.InfoUpdate
     ) -> None:
-        try:
-            _ = table.update_item(
-                Key={
-                    'PK': pk,
-                    'SK': sk
-                },
-                UpdateExpression='SET #fn = :val1, #cm = :val2, #num = :val3,',
-                ExpressionAttributeValues={
-                    ':val1': info.fullname,
-                    ':val2': info.cmnd,
-                    ':val3': info.number
-                },
-                ExpressionAttributeNames={
-                    '#fn': 'FullName',
-                    '#cm': 'CMND',
-                    '#num': 'Number'
-                }
-            )
-        except Exception:
-            _ = report_status.get_exception("Info")
+        # try:
+        _ = table.update_item(
+            Key={
+                'PK': pk,
+                'SK': sk
+            },
+            UpdateExpression='SET #fn = :val1, #cm = :val2, #num = :val3',
+            ExpressionAttributeValues={
+                ':val1': info.fullname,
+                ':val2': info.cmnd,
+                ':val3': info.number
+            },
+            ExpressionAttributeNames={
+                '#fn': 'FullName',
+                '#cm': 'CMND',
+                '#num': 'Number'
+            }
+        )
+        # except Exception:
+        #     _ = report_status.get_exception("Info")

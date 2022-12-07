@@ -14,8 +14,8 @@ class LocationIn(
     _domain_location.LocationPointAddress,
     _domain_location.LocationPointSpace,
     _domain_location.LocationPointCross,
-    _domain_location.LocationModel
-
+    _domain_location.LocationModel,
+    _domain_location.LocationIdAddress
 ):
     pass
 

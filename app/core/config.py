@@ -16,14 +16,15 @@ class DevSettings(Settings):
     region_name = 'ap-southeast-1'
     dynamo_link = 'devdynamo'
     buckets = 'trovol'
-    table = 'TroVol'
+    table = 'TroVol-Stagting1'
+    # table = 'TroVol'
 
 
 class StagingSettings(Settings):
     region_name = 'ap-southeast-1'
     dynamo_link = 'stagingdynamo'
     buckets = 'trovol'
-    table = 'TroVol-Stagting'
+    table = 'TroVol-Stagting1'
 
 
 def get_settings():
@@ -36,3 +37,4 @@ def get_settings():
 
 
 config = get_settings()
+print(os.environ.get('env'))
