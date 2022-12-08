@@ -23,11 +23,11 @@ class LocationEtity(
         self.gsi2sk = f'LOCATION#{self.id_location}'
 
     def get_pk(space_admin: str):
-        pk = f'SPACE#{space_admin}'
+        pk = f'LOCATION#{space_admin}'
         return pk
 
     def get_sk(space_admin: str):
-        sk = f'SPACE#{space_admin}'
+        sk = f'LOCATION#{space_admin}'
         return sk
 
     def get_pk_and_sk(space_admin: str):

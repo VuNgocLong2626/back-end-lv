@@ -90,5 +90,25 @@ async def update_info(data: _schemas_location.LocationUpdateIdAddress):
 
 @router.post("/get-all-comment-by-id")
 async def get_all_comment_id(gmail: _schemas_location.LocationGetInfo):
-    response = LocationService.get_all_comment_by_id_location(gmail.gmail_bussiness)
+    response = LocationService.get_all_comment_by_id_location(
+        gmail.gmail_bussiness)
+    return response
+
+
+@router.post("/update-image-location")
+async def update_image(
+    path: List[UploadFile] = File(..., alias='Path'),
+    gmail: str = Form(..., alias='IdLocation'),
+):
+    response = LocationService.update_image(
+        gmail,
+        path
+    )
+    return response
+
+
+@router.post("/update-point")
+async def update(point_in: _schemas_location.LocationUpdatePoint):
+    response = LocationService.update_point(
+        point_in)
     return response

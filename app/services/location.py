@@ -68,6 +68,8 @@ class LocationService():
 
     def get_info_location_by_id(gmail: str):
         response = _repo.get_info_location_by_id(gmail)
+        response.update(
+            {'PointSpace': ast.literal_eval(response.get('PointSpace'))})
         return response
 
     def update_info_location(data: _location_schemas.LocationUpdate):
@@ -171,3 +173,31 @@ class LocationService():
         response = _repo.get_all_comment(
             f'LOCATION#{info_.get("IdLocation")}')
         return response
+
+    def update_image(
+        gmail: str,
+        path: List[UploadFile]
+    ):
+        list_path = []
+        response_image = _repo.get_image_locatio_by_id(
+            f'IMAGE#{gmail}', f'IMAGE#{gmail}').get('ListImage')
+        for item in response_image:
+            _ = _s3.delete_file(item)
+        for item in path:
+            file_name = f'bussiness/{_s3.get_file_name(item.filename, str(Ksuid()))}'
+            _ = _s3.upload_file(item, file_name)
+            list_path.append(file_name)
+        _ = _repo.update_image(f'IMAGE#{gmail}', f'IMAGE#{gmail}', list_path)
+        return {'message': 'update successfully'}
+
+    def update_point(
+        point_in: _location_schemas.LocationUpdatePoint
+    ):
+        entity = _location.LocationEtity(**point_in.dict(by_alias=True))
+        _ = _repo.update_point(entity.pk, entity.sk,{
+            'ponit_space': entity.ponit_space,
+            'point_cross': entity.point_cross,
+            'on_id_address': entity.on_id_address,
+            'point_address': entity.ponit_space
+        })
+        return {'message': 'update successfully'}

@@ -72,3 +72,13 @@ class LocationUpdateIdAddress(
     _domain_base.IdLocation,
 ):
     pass
+
+
+class LocationUpdatePoint(
+    _domain_location.LocationPointAddress,
+    _domain_location.LocationPointSpace,
+    _domain_location.LocationPointCross,
+    _domain_location.LocationIdAddress,
+    _domain_base.IdLocation,
+):
+    pass
